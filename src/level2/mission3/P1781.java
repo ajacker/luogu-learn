@@ -1,6 +1,5 @@
 package level2.mission3;
 
-import java.math.BigInteger;
 import java.util.Scanner;
 
 /**
@@ -14,16 +13,16 @@ public class P1781 {
         Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
         int maxId = 0;
-        BigInteger max = BigInteger.valueOf(0);
+        String max = "";
         for (int i = 0; i < n; i++) {
-            BigInteger temp = scanner.nextBigInteger();
-            if (temp.compareTo(max) > 0) {
+            String temp = scanner.next();
+            //字符串长的一定大，如果字符串相同那么比较字典序（compareTo就是比较字典序的）
+            if (temp.length() > max.length() || (temp.length() == max.length() && temp.compareTo(max) > 0)) {
                 maxId = i + 1;
                 max = temp;
             }
         }
         System.out.println(maxId);
         System.out.print(max);
-
     }
 }
