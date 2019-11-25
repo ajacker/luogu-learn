@@ -11,25 +11,26 @@ import java.io.InputStreamReader;
  * @date 2019/11/25 10:41
  */
 public class P1042 {
+    static char[] race = new char[100000];
+
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         char c;
-        StringBuilder stringBuilder = new StringBuilder();
+        int i = 0;
         while ((c = (char) bufferedReader.read()) != 'E') {
-            stringBuilder.append(c);
+            race[i++] = c;
         }
-        process(stringBuilder.toString().toCharArray(), 11);
+        process(11);
         System.out.println();
-        process(stringBuilder.toString().toCharArray(), 21);
+        process(21);
     }
 
     /**
      * 进行比赛
      *
-     * @param race 比赛字符数组
-     * @param win  赛制
+     * @param win 赛制
      */
-    public static void process(char[] race, int win) {
+    public static void process(int win) {
         int l = 0, w = 0;
         //进行比赛
         for (int i = 0; i < race.length; i++) {
