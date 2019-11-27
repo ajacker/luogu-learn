@@ -1,4 +1,4 @@
-package level2;
+package level2.mission6;
 
 import java.util.Arrays;
 import java.util.Scanner;
