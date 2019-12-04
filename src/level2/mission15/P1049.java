@@ -25,12 +25,13 @@ public class P1049 {
         }
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= V; j++) {
-                if (size[i] > j) {
-                    dp[i][j] = dp[i - 1][j];
-                } else {
+                if (size[i] <= j) {
+                    //优先装第i个之后，加上剩下的空间能装的最优解
                     int v1 = dp[i - 1][j - size[i]] + size[i];
-                    int v21 = dp[i - 1][j];
-                    dp[i][j] = Integer.max(v1, v21);
+                    //如果不装当前物品，直接和装前面(如果装不下只能选择不装当前物品)
+                    int v2 = dp[i - 1][j];
+                    //选择能装的最大价值（重量）
+                    dp[i][j] = Integer.max(v1, v2);
                 }
             }
         }
