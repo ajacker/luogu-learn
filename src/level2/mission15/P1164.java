@@ -20,7 +20,7 @@ public class P1164 {
         n = sc.nextInt();
         m = sc.nextInt();
         price = new int[n + 1];
-        for (int i = 1; i <= m; i++) {
+        for (int i = 1; i <= n; i++) {
             price[i] = sc.nextInt();
         }
         method = new int[n + 1][m + 1];
