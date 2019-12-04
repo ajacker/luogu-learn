@@ -32,6 +32,8 @@ public class P1049 {
                     int v2 = dp[i - 1][j];
                     //选择能装的最大价值（重量）
                     dp[i][j] = Integer.max(v1, v2);
+                } else {
+                    dp[i][j] = dp[i - 1][j];
                 }
             }
         }
