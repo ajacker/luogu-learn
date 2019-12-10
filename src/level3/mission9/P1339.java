@@ -1,9 +1,6 @@
 package level3.mission9;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.PriorityQueue;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * P1339 [USACO09OCT]热浪Heat Wave
@@ -36,9 +33,47 @@ public class P1339 {
             map[u].add(new Edge(v, w));
             map[v].add(new Edge(u, w));
         }
-        dij(s, t);
+        spfa(s, t);
     }
 
+    /**
+     * spfa算法
+     *
+     * @param s
+     * @param t
+     */
+    static void spfa(int s, int t) {
+        Queue<Edge> queue = new LinkedList<>();
+        boolean[] inQueue = new boolean[n + 1];
+        int[] dis = new int[n + 1];
+        Arrays.fill(dis, Integer.MAX_VALUE);
+        dis[s] = 0;
+        inQueue[s] = true;
+        queue.offer(new Edge(s, 0));
+        while (!queue.isEmpty()) {
+            Edge e = queue.poll();
+            int u = e.v;
+            inQueue[u] = false;
+            for (Edge next : map[u]) {
+                int v = next.v;
+                if (dis[u] + next.w < dis[v]) {
+                    dis[v] = dis[u] + next.w;
+                    if (!inQueue[v]) {
+                        queue.offer(new Edge(v, dis[v]));
+                        inQueue[v] = true;
+                    }
+                }
+            }
+        }
+        System.out.println(dis[t]);
+    }
+
+    /**
+     * dijstra算法
+     *
+     * @param s
+     * @param t
+     */
     static void dij(int s, int t) {
         PriorityQueue<Edge> queue = new PriorityQueue<>();
         boolean[] visited = new boolean[n + 1];
