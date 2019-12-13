@@ -43,22 +43,11 @@ public class P2341 {
             short b = (short) in.nval;
             map[a].add(b);
         }
-        if (N == 10000 && M == 10000) {
-            System.out.print(10000);
-            return;
-        }
-        if (N == 10000 && M == 41999) {
-            System.out.print(5);
-            return;
-        }
-        if (N == 10000) {
-            System.out.print(1);
-            return;
-        }
+
         //从所有点出发找可能的连通分量
         for (short i = 1; i <= N; i++) {
             if (dfn[i] == 0) {
-                tarjan(i);
+                tarjan2(i);
             }
         }
         for (int u = 1; u <= N; u++) {
@@ -85,6 +74,62 @@ public class P2341 {
         System.out.println(count[res]);
 
     }
+
+    /**
+     * 非递归的tarjan 模拟栈
+     *
+     * @param u
+     */
+    static void tarjan2(short u) {
+        Stack<Short> tStack = new Stack<>();
+        tStack.push(u);
+        while (!tStack.isEmpty()) {
+            Short cur = tStack.peek();
+            //只有第一次才初始化（因为这是peek，之后会来的时候不能走这部分
+            if (dfn[cur] == 0) {
+                dfn[cur] = low[cur] = (short) ++index;
+                stack.push(cur);
+                inStack[cur] = true;
+            }
+            int i = 0;
+            boolean flag = false;
+            while (i < map[cur].size()) {
+                short next = map[cur].get(i);
+                if (dfn[next] == 0) {
+                    tStack.push(next);
+                    //模拟递归调用，压栈并不继续后面的
+                    flag = true;
+                    break;
+                } else if (inStack[next]) {
+                    //如果遇到了自己的父亲，那自己的父亲肯定有机会更新自己的low
+                    low[cur] = (short) Integer.min(low[cur], dfn[next]);
+                }
+                i++;
+            }
+            if (flag) {
+                continue;
+            }
+            //如果本层遍历完成，处理联通分量(模拟for循环中的递归完成)
+            if (i == map[cur].size()) {
+                short v = tStack.pop();
+                if (dfn[cur] == low[cur]) {
+                    int next;
+                    ++id;
+                    do {
+                        next = stack.pop();
+                        inStack[next] = false;
+                        type[next] = (short) id;
+                        count[id]++;
+                    } while (cur != next);
+                }
+                //模拟回溯后更新父节点的low
+                if (!tStack.isEmpty()) {
+                    low[tStack.peek()] = (short) Integer.min(low[tStack.peek()], low[v]);
+                }
+            }
+        }
+    }
+
 
     static void tarjan(short u) {
         dfn[u] = low[u] = (short) ++index;
